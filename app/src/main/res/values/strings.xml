@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WhatsAppStatusSaver</string>
+    <string name="went_wrong">Something Went Wrong..</string>
+    <string name="del_img">deleted successfully..</string>
+    <string name="no_files_found">No Record Found</string>
+
+    <string name="images">Photos</string>
+    <string name="videos">Videos</string>
+    <string name="save">Saved</string>
+    <string name="saved_files">Saved</string>
+</resources>
