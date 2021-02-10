@@ -36,7 +36,6 @@ public class VideoFragment extends Fragment implements FragmentInterface {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private List<Status> videoList = new ArrayList<>();
-    private Handler handler = new Handler();
     private VideoAdapter videoAdapter;
     private ArrayList<String> photoList = new ArrayList<>();
     private RelativeLayout container;
@@ -87,9 +86,7 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
         if (Common.STATUS_DIRECTORY.exists()) {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+
                     File[] statusFiles = Common.STATUS_DIRECTORY.listFiles();
                     videoList.clear();
                     photoList.clear();
@@ -108,29 +105,21 @@ public class VideoFragment extends Fragment implements FragmentInterface {
 
                         }
 
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+
                                 videoAdapter = new VideoAdapter(videoList, container, photoList);
                                 recyclerView.setAdapter(videoAdapter);
                                 videoAdapter.notifyDataSetChanged();
                                 progressBar.setVisibility(View.GONE);
-                            }
-                        });
+
 
                     } else {
 
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), "Dir doest not exists", Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
                     }
-                }
-            }).start();
+
 
         } else {
             Toast.makeText(getActivity(), "Cant find WhatsApp Dir", Toast.LENGTH_SHORT).show();

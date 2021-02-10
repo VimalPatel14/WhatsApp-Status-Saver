@@ -37,7 +37,6 @@ public class SavedFilesFragment extends Fragment implements FragmentInterface {
     private ProgressBar progressBar;
     private List<Status> savedFilesList = new ArrayList<>();
     private ArrayList<String> photoList = new ArrayList<>();
-    private Handler handler = new Handler();
     private FilesAdapter filesAdapter;
     private TextView no_files_found;
 
@@ -47,6 +46,13 @@ public class SavedFilesFragment extends Fragment implements FragmentInterface {
         if (savedFilesFragment == null)
             savedFilesFragment = new SavedFilesFragment();
         return savedFilesFragment;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser)
+            getFiles();
     }
 
     @Nullable
@@ -96,9 +102,7 @@ public class SavedFilesFragment extends Fragment implements FragmentInterface {
 
                 no_files_found.setVisibility(View.GONE);
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+
                         File[] savedFiles = null;
                         savedFiles = app_dir.listFiles();
                         savedFilesList.clear();
@@ -116,9 +120,6 @@ public class SavedFilesFragment extends Fragment implements FragmentInterface {
                                 photoList.add(status.getPath());
                             }
 
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
                                     if (savedFilesList.size() > 0) {
                                         recyclerView.setVisibility(View.VISIBLE);
                                         filesAdapter = new FilesAdapter(savedFilesList, photoList);
@@ -132,23 +133,18 @@ public class SavedFilesFragment extends Fragment implements FragmentInterface {
                                         no_files_found.setVisibility(View.VISIBLE);
                                     }
 
-                                }
-                            });
+
 
                         } else {
 
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
+
                                     progressBar.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.GONE);
                                     no_files_found.setVisibility(View.VISIBLE);
-                                }
-                            });
+
 
                         }
-                    }
-                }).start();
+
 
             } else {
                 no_files_found.setVisibility(View.VISIBLE);

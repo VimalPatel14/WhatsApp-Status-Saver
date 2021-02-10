@@ -85,9 +85,7 @@ public class ImageFragment extends Fragment implements FragmentInterface {
 
         if (Common.STATUS_DIRECTORY.exists()) {
             Log.e("vml", Common.STATUS_DIRECTORY + " getStatus");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+
                     File[] statusFiles = null;
                     statusFiles = Common.STATUS_DIRECTORY.listFiles();
                     imagesList.clear();
@@ -109,30 +107,23 @@ public class ImageFragment extends Fragment implements FragmentInterface {
 
                         }
 
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+
 
                                 imageAdapter = new ImageAdapter(imagesList, container, photoList);
                                 recyclerView.setAdapter(imageAdapter);
                                 imageAdapter.notifyDataSetChanged();
                                 progressBar.setVisibility(View.GONE);
-                            }
-                        });
+
 
                     } else {
 
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), "Dir doest not exists", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
 
                     }
-                }
-            }).start();
+
 
         } else {
             Toast.makeText(getActivity(), "Cant find WhatsApp Dir", Toast.LENGTH_SHORT).show();
